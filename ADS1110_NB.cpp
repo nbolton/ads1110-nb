@@ -39,25 +39,25 @@ bool ADS1110::begin() {
   Wire.begin();
   Wire.beginTransmission(m_addr);
   uint8_t r = Wire.endTransmission();
-  TRACE_VA(TRACE_DEBUG1, TRACE_PRE "init response: %d", r);
+  TRACE_VA(TRACE_DEBUG2, TRACE_PRE "init response: %d", r);
   return r == 0;
 }
 
 bool ADS1110::read(Config& config, float& output) {
   uint8_t request = Wire.requestFrom(m_addr, (uint8_t)READ_SIZE);
-  TRACE_VA(TRACE_DEBUG1, TRACE_PRE "request result: %d", request);
+  TRACE_VA(TRACE_DEBUG2, TRACE_PRE "request result: %d", request);
 
   if (request != READ_SIZE) {
-    TRACE(TRACE_DEBUG1, TRACE_PRE "unexpected reqest result");
+    TRACE(TRACE_DEBUG2, TRACE_PRE "unexpected reqest result");
     return false;
   }
 
   uint8_t buffer[READ_SIZE];
   uint8_t read = Wire.readBytes(buffer, READ_SIZE);
-  TRACE_VA(TRACE_DEBUG1, TRACE_PRE "data read result: %d", read);
+  TRACE_VA(TRACE_DEBUG2, TRACE_PRE "data read result: %d", read);
 
   if (read != READ_SIZE) {
-    TRACE(TRACE_DEBUG1, TRACE_PRE "unexpected read result");
+    TRACE(TRACE_DEBUG2, TRACE_PRE "unexpected read result");
     return false;
   }
 
@@ -66,7 +66,7 @@ bool ADS1110::read(Config& config, float& output) {
   const uint8_t c = buffer[2];
 
   TRACE_VA(  //
-      TRACE_DEBUG1,
+      TRACE_DEBUG2,
       TRACE_PRE "registers: output[a]=%d, output[b]=%d, config=%d",  //
       a, b, c);
 
